@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar build/libs/backend-0.0.1-SNAPSHOT
+web: java -Dserver.port=$PORT -jar eorder-was/build/libs/backend-0.0.1-SNAPSHOT
