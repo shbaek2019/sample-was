@@ -4,9 +4,9 @@ plugins {
 	id 'java'
 }
 
-group = 'com.itsse'
+group = 'com.eorder'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '15'
 
 configurations {
 	compileOnly {
