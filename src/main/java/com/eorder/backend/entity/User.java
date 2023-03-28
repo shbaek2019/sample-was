@@ -33,7 +33,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table
+@Table(schema="public")
 public class User implements UserDetails{
     
     @Id
