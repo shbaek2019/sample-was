@@ -12,5 +12,6 @@ public interface SignService {
     						String phoneNumber, 
     						String password, 
     						String role);
+    
     SignInResultDto signIn(String id, String password) throws RuntimeException;
 }

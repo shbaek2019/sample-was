@@ -19,7 +19,7 @@ public class BackendApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                	.allowedOrigins("https://e-order.herokuapp.com")
+                	//.allowedOrigins("https://e-order.herokuapp.com")
                 	//.allowedOrigins("*")
                 	.allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE");
             }

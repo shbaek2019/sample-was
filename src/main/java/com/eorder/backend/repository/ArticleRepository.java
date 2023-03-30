@@ -9,4 +9,6 @@ import com.eorder.backend.entity.User;
 
 public interface ArticleRepository extends JpaRepository<Article, Long>{
     List<Article> getArticlesByAuthor(User author);
+    Article getOneByAuthor(User author);
+    Article getOneById(long articleId);
 }

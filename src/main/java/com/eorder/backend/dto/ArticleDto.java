@@ -4,6 +4,7 @@ public class ArticleDto {
     //
     private String title;
     private String content;
+    // email을 받는다.
     private String author;
     
     public ArticleDto() {
