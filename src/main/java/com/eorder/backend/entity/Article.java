@@ -43,12 +43,17 @@ public class Article {
     @Lob
     private String contents;
     
-    @ManyToOne(targetEntity = User.class, fetch=FetchType.LAZY)
+    @Column(nullable = false)
+    private String category;
+    
+    @Column(nullable = false)
+    private String publicYn;
+    
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "uid")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User author;
     
     @CreationTimestamp
     private LocalDateTime createdAt;
-
 }

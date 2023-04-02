@@ -31,15 +31,12 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public Article saveArticle(ArticleDto dto) {
-		Article saveTargetArticle = new Article();
-		saveTargetArticle.setTitle(dto.getTitle());
-		saveTargetArticle.setContents(dto.getContent());
+		Article readyEntity = dto.entityFactory();
 		
-		// Author 정보 조회
 		User author = userRepository.getByEmail(dto.getAuthor());
-		saveTargetArticle.setAuthor(author);
+		readyEntity.setAuthor(author);
 		
-		Article result = articleRepository.save(saveTargetArticle);
+		Article result = articleRepository.save(readyEntity);
 		return result;
 	}
 

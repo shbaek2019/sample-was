@@ -38,15 +38,15 @@ public class JwtTokenProvider {
     @PostConstruct
     protected void init() {
         //
-        LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 시작");
+        LOGGER.info("[init] JwtTokenProvider �궡 secretKey 珥덇린�솕 �떆�옉");
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
-        LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 완료");
+        LOGGER.info("[init] JwtTokenProvider �궡 secretKey 珥덇린�솕 �셿猷�");
     }
     
-    public String createToken(String userUid, List<String> roles) {
+    public String createToken(String userEmail, List<String> roles) {
         //
-        LOGGER.info("[createToken] 토큰 생성 시작");
-        Claims claims = Jwts.claims().setSubject(userUid);
+        LOGGER.info("[createToken] �넗�겙 �깮�꽦 �떆�옉");
+        Claims claims = Jwts.claims().setSubject(userEmail);
         claims.put("roles", roles);
         Date now = new Date();
         
@@ -57,42 +57,48 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         
-        LOGGER.info("[createToken] 토큰 생성 완료");
+        LOGGER.info("[createToken] �넗�겙 �깮�꽦 �셿猷�");
         return token;
     }
     
     public Authentication getAuthentication(String token) {
         //
-        LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 시작");
+        LOGGER.info("[getAuthentication] �넗�겙 �씤利� �젙蹂� 議고쉶 �떆�옉");
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
-        LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 완료, UserDetails UserName : {}", userDetails.getUsername());
+        LOGGER.info("[getAuthentication] �넗�겙 �씤利� �젙蹂� 議고쉶 �셿猷�, UserDetails UserName : {}", userDetails.getUsername());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
     
     public String getUsername(String token) {
         //
-        LOGGER.info("[getUsername] 토큰 기반 회원 구별 정보 추출");
+        LOGGER.info("[getUsername] �넗�겙 湲곕컲 �쉶�썝 援щ퀎 �젙蹂� 異붿텧");
         String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-        LOGGER.info("[getUsername] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
+        LOGGER.info("[getUsername] �넗�겙 湲곕컲 �쉶�썝 援щ퀎 �젙蹂� 異붿텧 �셿猷�, info : {}", info);
         return info;
     }
     
     public String resolveToken(HttpServletRequest request) {
         //
-        LOGGER.info("[resolveToken] HTTP 헤더에서 Token 값 추출");
-        return request.getHeader("Authorization");
+        LOGGER.info("[resolveToken] HTTP �뿤�뜑�뿉�꽌 Token 媛� 異붿텧");
+        //return request.getHeader("Authorization");
+        String jwtToken = null;
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwtToken = authHeader.substring(7); // Extract the JWT token without the "Bearer " prefix
+        }
+        return jwtToken;
     }
     
     public boolean validateToken(String token) {
         //
-        LOGGER.info("[validateToken] 토큰 유효 체크 시작");
+        LOGGER.info("[validateToken] �넗�겙 �쑀�슚 泥댄겕 �떆�옉");
         try {
             //
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
-            LOGGER.info("[validateToken] 토큰 유효 체크 예외 발생");
+            LOGGER.info("[validateToken] �넗�겙 �쑀�슚 泥댄겕 �삁�쇅 諛쒖깮");
             return false;
         }
     }

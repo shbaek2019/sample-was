@@ -26,6 +26,11 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
     
+    @GetMapping("/findArticleById")
+    public Article findArticleById(@RequestParam Long articleId) {
+    	return articleService.getArticleByArticleId(articleId);
+    }
+    
     @GetMapping("/list")
     public List<Article> getArticles(@RequestParam String author) {
         //
